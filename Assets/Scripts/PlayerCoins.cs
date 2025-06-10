@@ -36,6 +36,6 @@ public class PlayerCoins : MonoBehaviour
     private void UpdatePlayerSpeed()
     {
         float newSpeed = baseSpeed + (coinCount * speedPerCoin);
-        movement.walkSpeed = Mathf.Min(newSpeed, maxSpeed);
+        movement.targetSpeed = Mathf.Min(newSpeed, maxSpeed);
     }
 }

@@ -20,10 +20,20 @@ public class PlayerMovement : MonoBehaviour
 
     private bool autoRunEnabled = false;
     public int moveDirection { get; private set; } = 1; // 1 = right, -1 = left
+    [HideInInspector] public float targetSpeed;
+    public float accelerationRate = 5f;  // Adjust this to feel snappy or smooth
+
+    [Header("Acceleration")]
+    public float acceleration = 30f;
+    public float deceleration = 40f;
+
+    private float currentSpeedX = 0f;
+
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        targetSpeed = walkSpeed;
     }
 
     void Update()
@@ -36,22 +46,18 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // - GROUND CHECK -
-        Vector2 checkPos = new Vector2(transform.position.x, transform.position.y - 0.5f);
+        Vector2 checkPos = new Vector2(transform.position.x, transform.position.y - 1f);
         isGrounded = Physics2D.OverlapCircle(checkPos, 0.1f, groundLayer);
 
         // - DROP COIN -
         if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("Coin Burned");
-            if (Input.GetKeyDown(KeyCode.F))
+            PlayerCoins coinSystem = GetComponent<PlayerCoins>();
+            if (coinSystem != null)
             {
-                PlayerCoins coinSystem = GetComponent<PlayerCoins>();
-                if (coinSystem != null)
-                {
-                    coinSystem.DropCoin();
-                }
+                coinSystem.DropCoin();
             }
-
         }
 
         // - JUMP -
@@ -90,7 +96,6 @@ public class PlayerMovement : MonoBehaviour
     {
         float horizontal = 0;
 
-        // - Movement Input -
         if (Input.GetKey(KeyCode.A))
         {
             Debug.Log("Move Left");
@@ -105,12 +110,34 @@ public class PlayerMovement : MonoBehaviour
         }
         else if (autoRunEnabled)
         {
-            horizontal = moveDirection; // continue auto-running
+            horizontal = moveDirection;
         }
+
+        // Smooth walkSpeed toward targetSpeed
+        walkSpeed = Mathf.MoveTowards(walkSpeed, targetSpeed, accelerationRate * Time.fixedDeltaTime);
 
         if (!isSliding)
         {
-            rb.linearVelocity = new Vector2(horizontal * walkSpeed, rb.linearVelocity.y);
+            float targetVelocityX = horizontal * walkSpeed;
+
+            if (horizontal != 0)
+            {
+                currentSpeedX = Mathf.MoveTowards(currentSpeedX, targetVelocityX, acceleration * Time.fixedDeltaTime);
+            }
+            else
+            {
+                currentSpeedX = Mathf.MoveTowards(currentSpeedX, 0, deceleration * Time.fixedDeltaTime);
+            }
+
+            rb.linearVelocity = new Vector2(currentSpeedX, rb.linearVelocity.y);
         }
+    }
+
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Vector2 checkPos = new Vector2(transform.position.x, transform.position.y - 1f);
+        Gizmos.DrawWireSphere(checkPos, 0.1f);
     }
 }

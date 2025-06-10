@@ -8,6 +8,12 @@ TagManager:
   - Items
   - Coin
   - Gate
+  - Wall
+  - Spike
+  - SPad
+  - Spring
+  - Hazard
+  - Platform
   layers:
   - Default
   - TransparentFX

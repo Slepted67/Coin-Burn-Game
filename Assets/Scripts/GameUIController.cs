@@ -17,7 +17,8 @@ public class GameUIController : MonoBehaviour
 
         if (playerMovement != null)
         {
-            speedText.text = "Speed: " + playerMovement.walkSpeed.ToString("F1");
+            float currentSpeed = Mathf.Abs(playerMovement.GetComponent<Rigidbody2D>().linearVelocity.x);
+            speedText.text = "Speed: " + currentSpeed.ToString("F1");
         }
     }
 }

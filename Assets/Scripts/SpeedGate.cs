@@ -1,19 +1,22 @@
 using UnityEngine;
 using TMPro;
 
+/// <summary>
+/// A gate that only allows the player to pass through if they are moving at or above a required speed.
+/// </summary>
 public class SpeedGate : MonoBehaviour
 {
     [Header("Speed Requirements")]
-    public float requiredSpeed = 8f;
+    public float requiredSpeed = 8f;      // Speed needed to pass the gate
     public bool killOnFail = false;
     public bool bounceOnFail = true;
 
     private GameObject barrierObject;
-    private bool gateChecked = false;
+    private bool gateChecked = false;     // Prevents repeated checking
 
     void Start()
     {
-        // Find and deactivate the barrier child
+        // Locate and disable the barrier object (child of parent object)
         Transform barrierTransform = transform.parent.Find("GateBarrier");
         if (barrierTransform != null)
         {
@@ -25,16 +28,19 @@ public class SpeedGate : MonoBehaviour
             Debug.LogWarning("GateBarrier not found as child of SpeedGate.");
         }
 
-        // Find and update gate speed text
+        // Set the speed text display (child of parent object)
         TextMeshPro speedText = transform.parent.Find("GateSpeed")?.GetComponent<TextMeshPro>();
         if (speedText != null)
         {
             speedText.text = requiredSpeed.ToString("F0");
 
-            // Optional: color code based on difficulty
-            if (requiredSpeed >= 10f) speedText.color = Color.red;
-            else if (requiredSpeed >= 6f) speedText.color = Color.yellow;
-            else speedText.color = Color.green;
+            // Optional color coding for visual difficulty cue
+            if (requiredSpeed >= 10f)
+                speedText.color = Color.red;
+            else if (requiredSpeed >= 6f)
+                speedText.color = Color.yellow;
+            else
+                speedText.color = Color.green;
         }
         else
         {
@@ -44,8 +50,8 @@ public class SpeedGate : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (gateChecked) return;
-        if (!collision.CompareTag("Player")) return;
+        if (gateChecked) return;                     // Prevent multiple checks
+        if (!collision.CompareTag("Player")) return; // Only allow player to trigger
 
         PlayerCoins coinSystem = collision.GetComponent<PlayerCoins>();
         PlayerMovement moveSystem = collision.GetComponent<PlayerMovement>();
@@ -57,31 +63,34 @@ public class SpeedGate : MonoBehaviour
             if (currentSpeed >= requiredSpeed)
             {
                 Debug.Log("Gate Passed ✅");
-                // Nothing needed — let them through
+                // Let player pass
+                coinSystem.ActivateDoublePoints(3f);
             }
             else
             {
                 Debug.Log("Gate Blocked ❌");
 
+                // Activate the barrier object
                 if (barrierObject != null)
                     barrierObject.SetActive(true);
 
                 if (killOnFail)
                 {
-                    Destroy(collision.gameObject); // or call a death animation
+                    // Optional: trigger death sequence instead
+                    Destroy(collision.gameObject);
                 }
                 else if (bounceOnFail)
                 {
                     Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
                     if (rb != null)
                     {
-                        // Push player back slightly
+                        // Bounce the player back
                         rb.linearVelocity = new Vector2(-moveSystem.moveDirection * 5f, rb.linearVelocity.y);
                     }
                 }
             }
 
-            gateChecked = true;
+            gateChecked = true; // Avoid repeat interactions
         }
     }
 }

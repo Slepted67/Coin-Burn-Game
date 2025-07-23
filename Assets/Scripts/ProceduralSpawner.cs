@@ -5,9 +5,9 @@ public class ProceduralSpawner : MonoBehaviour
 {
     [Header("References")]
     public Transform player;
-    public GameObject startPlatform;       // Your start platform prefab
-    public GameObject[] flatVariants;      // Your flat ground pieces
-    public GameObject[] obstacleVariants;  // Your obstacles
+    public GameObject startPlatform;     
+    public GameObject[] flatVariants;     
+    public GameObject[] obstacleVariants; 
 
     [Header("Spawn Settings")]
     public float spawnDistance = 20f;

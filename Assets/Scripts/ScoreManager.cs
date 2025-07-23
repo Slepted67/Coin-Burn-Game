@@ -5,11 +5,20 @@ public class ScoreManager : MonoBehaviour
     public static ScoreManager Instance;
     public int score = 0;
 
+    [Header("Combo Settings")]
+    [SerializeField] private float comboDuration = 1.0f;
+    private float comboTimer = 0f;
+    private bool comboActive = false;
+
+    [Header("Max Speed Scoring")]
     private float maxSpeedTimer = 0f;
     private float maxSpeedCheckRate = 0.1f;
 
+    [Header("Obstacle Tracking")]
+    private int obstaclesPassed = 0;
+    private int nextMilestone = 10;
+
     private float lastXPos;
-    private int obstacleCounter = 0;
 
     private void Awake()
     {
@@ -25,6 +34,15 @@ public class ScoreManager : MonoBehaviour
 
     void Update()
     {
+        HandleDistanceScore();
+        HandleComboTimer();
+    }
+
+    // -----------------------------------
+    // ✅ Distance Traveled Scoring
+    // -----------------------------------
+    void HandleDistanceScore()
+    {
         float currentX = GameObject.FindWithTag("Player").transform.position.x;
         float delta = currentX - lastXPos;
 
@@ -34,6 +52,9 @@ public class ScoreManager : MonoBehaviour
         lastXPos = currentX;
     }
 
+    // -----------------------------------
+    // ✅ Max Speed Bonus Scoring
+    // -----------------------------------
     void CheckMaxSpeed()
     {
         var player = GameObject.FindWithTag("Player")?.GetComponent<PlayerMovement>();
@@ -44,6 +65,7 @@ public class ScoreManager : MonoBehaviour
             {
                 AddScore(50);
                 maxSpeedTimer = 0f;
+                Debug.Log("🚀 Max speed sustained — +50 points!");
             }
         }
         else
@@ -52,86 +74,83 @@ public class ScoreManager : MonoBehaviour
         }
     }
 
-    public void AddScore(int amount)
+    // -----------------------------------
+    // ✅ Combo Coin System
+    // -----------------------------------
+    void HandleComboTimer()
     {
-        score += amount;
-        Debug.Log("Score: " + score);
-        // TODO: Hook UI here later
+        if (comboActive)
+        {
+            comboTimer -= Time.deltaTime;
+            if (comboTimer <= 0f)
+            {
+                comboActive = false;
+                Debug.Log("Combo ended");
+            }
+        }
     }
 
+    public void RegisterCoinPickup(bool isComboEligible = false)
+    {
+        AddScore(15); // Regular coin
+        Debug.Log("💰 Coin picked up: +15");
+
+        if (comboActive && isComboEligible)
+        {
+            AddScore(5); // Combo bonus
+            Debug.Log("🔥 Combo coin: +5 bonus");
+        }
+
+        comboTimer = comboDuration;
+        comboActive = true;
+    }
+
+    // -----------------------------------
+    // ✅ Obstacle Tracking
+    // -----------------------------------
     public void RegisterObstaclePassed()
     {
-        obstacleCounter++;
-        if (obstacleCounter % 10 == 0)
+        obstaclesPassed++;
+        AddScore(100);
+        Debug.Log($"✅ Obstacle passed! Total: {obstaclesPassed}");
+
+        if (obstaclesPassed >= nextMilestone)
         {
-            AddScore(100);
-            Debug.Log("🎯 Milestone: 10 obstacles cleared!");
+            AddScore(100); // Milestone bonus
+            Debug.Log("🎉 Milestone reached — +100 bonus");
+            nextMilestone += 10;
         }
+    }
+
+    // -----------------------------------
+    // ✅ Other Event Scores
+    // -----------------------------------
+    public void RegisterSpringBounce()
+    {
+        AddScore(25);
+        Debug.Log("🌀 Spring bounce: +25");
     }
 
     public void RegisterBreakablePlatformUse()
     {
-        AddPoints(50); // +50 for choosing the parkour path
-        Debug.Log("Scored +50 for breakable platform use.");
+        AddScore(50);
+        Debug.Log("🪵 Breakable platform used: +50");
     }
 
-
-    public void RegisterSpringBounce() => AddScore(25);
-
-    public void RegisterBreakableUsed() => AddScore(50);
-
-    public void RegisterComboCoin() => AddScore(5);
-
-    public void RegisterCoinLoss(int count) => AddScore(-10 * count);
-}
-private float comboTimer = 0f;
-private bool comboActive = false;
-
-// How long you have to collect another coin to continue the combo
-[SerializeField] private float comboDuration = 1.0f;
-
-public void RegisterCoinPickup(bool isComboEligible = false)
-{
-    AddPoints(15); // Regular coin value
-    Debug.Log("Coin picked up: +15");
-
-    if (comboActive && isComboEligible)
+    public void RegisterCoinLoss(int count)
     {
-        AddPoints(5); // Bonus for combo
-        Debug.Log("Combo coin collected: +5 bonus");
+        int penalty = count * 10;
+        AddScore(-penalty);
+        Debug.Log($"💥 Lost {count} coins — -{penalty} points");
     }
 
-    // Restart or extend combo timer
-    comboTimer = comboDuration;
-    comboActive = true;
-}
-
-private void Update()
-{
-    if (comboActive)
+    // -----------------------------------
+    // ✅ Shared Scoring Method
+    // -----------------------------------
+    public void AddScore(int amount)
     {
-        comboTimer -= Time.deltaTime;
-        if (comboTimer <= 0f)
-        {
-            comboActive = false;
-            Debug.Log("Combo ended");
-        }
-    }
-}
-
-private int obstaclesPassed = 0;
-private int nextMilestone = 10;
-
-public void RegisterObstaclePassed()
-{
-    obstaclesPassed++;
-    Debug.Log($"Obstacle passed! Total: {obstaclesPassed}");
-
-    if (obstaclesPassed >= nextMilestone)
-    {
-        AddPoints(100);
-        Debug.Log("🎉 Milestone! +100 points");
-
-        nextMilestone += 10; // Next reward at 20, then 30, etc.
+        score += amount;
+        Debug.Log("🏆 Score: " + score);
+        // TODO: Hook into UI display
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 844844418964357083}
   - component: {fileID: 7250315845046956058}
   - component: {fileID: 2701575281909790388}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: BreakablePlatform
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -166,4 +166,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf676327cd0cf904f81d944d605df78b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  breakDelay: 0.75
+  breakDelay: 0.5

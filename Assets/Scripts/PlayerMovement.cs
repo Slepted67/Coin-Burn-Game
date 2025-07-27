@@ -3,7 +3,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    public float walkSpeed = 3f;
+    public float walkSpeed = 5f;
     public float jumpForce = 10f;
     public float slideDuration = 0.5f;
 
@@ -11,46 +11,59 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask groundLayer;
 
     [Header("Sprite Flip")]
-    public Transform bodySprite;
-
-    [Header("Acceleration")]
-    public float accelerationRate = 5f;
-    public float acceleration = 30f;
-    public float deceleration = 40f;
-    public float targetSpeed;
-    private float currentSpeedX = 0f;
-
-    // ----------------------------
-    // === Runtime States ===
-    // ----------------------------
-
+    public Transform bodySprite; // Assign Plyr_Body in Inspector
+   
     private Rigidbody2D rb;
-    private bool isGrounded = false;
+    private Animator animator;
+    private bool isGrounded;
+    private bool wasGroundedLastFrame;
     private bool isSliding = false;
     private float slideTimer = 0f;
+
     private bool autoRunEnabled = false;
-    public int moveDirection { get; private set; } = 1;  // 1 = right, -1 = left
+    public int moveDirection { get; private set; } = 1; // 1 = right, -1 = left
+    [HideInInspector] public float targetSpeed;
+    public float accelerationRate = 5f;  // Adjust this to feel snappy or smooth
+
+    [Header("Acceleration")]
+    public float acceleration = 30f;
+    public float deceleration = 40f;
+
+    private float currentSpeedX = 0f;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        targetSpeed = walkSpeed; // Initialize target speed
+        animator = GetComponent<Animator>();
+        targetSpeed = walkSpeed;
+        wasGroundedLastFrame = true;
     }
 
     void Update()
     {
-        // --- Toggle autorun with 'R' ---
+        // - TOGGLE AUTORUN -
         if (Input.GetKeyDown(KeyCode.R))
         {
             Debug.Log("Autorun Toggled");
             autoRunEnabled = !autoRunEnabled;
         }
 
-        // --- Ground Check (Gizmo-verified height) ---
+        // - GROUND CHECK -
         Vector2 checkPos = new Vector2(transform.position.x, transform.position.y - 1f);
         isGrounded = Physics2D.OverlapCircle(checkPos, 0.1f, groundLayer);
 
-        // --- Coin Drop ---
+        // - LANDING LOGIC -
+        if (isGrounded && !wasGroundedLastFrame)
+        {
+            Debug.Log("Landed");
+            animator.SetTrigger("Landed");
+        }
+
+        // Update grounded state to animator 
+        animator.SetBool("isGrounded", isGrounded);
+        wasGroundedLastFrame = isGrounded;
+
+        // - DROP COIN -
         if (Input.GetKeyDown(KeyCode.F))
         {
             Debug.Log("Coin Burned");
@@ -61,23 +74,23 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        // --- Jump Input ---
+        // - JUMP -
         if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
         {
             Debug.Log("Jumped");
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            animator.SetTrigger("JumpTrigger");
         }
 
-        // --- Slide Input ---
+        // - SLIDE -
         if (Input.GetKeyDown(KeyCode.S) && isGrounded && !isSliding)
         {
-            Debug.Log("Slid");
+            Debug.Log("Slide Baby");
             isSliding = true;
             slideTimer = slideDuration;
             rb.linearVelocity = new Vector2(moveDirection * walkSpeed * 1.5f, rb.linearVelocity.y);
         }
 
-        // --- Slide Timer Logic ---
         if (isSliding)
         {
             slideTimer -= Time.deltaTime;
@@ -85,20 +98,29 @@ public class PlayerMovement : MonoBehaviour
                 isSliding = false;
         }
 
-        // --- Sprite Flipping ---
+        // - SPRITE FLIP -
         if (moveDirection != 0 && bodySprite != null)
         {
             Vector3 scale = bodySprite.localScale;
             scale.x = Mathf.Abs(scale.x) * moveDirection;
             bodySprite.localScale = scale;
         }
+        // Update animator parameters 
+
+        // Running:
+            bool isRunning = Mathf.Abs(currentSpeedX) > 0.1f;
+            animator.SetBool("isRunning", isRunning);
+
+         // Sliding: 
+            animator.SetBool("isSliding", isSliding);
+
+        
     }
 
     void FixedUpdate()
     {
         float horizontal = 0;
 
-        // --- Horizontal Movement Input ---
         if (Input.GetKey(KeyCode.A))
         {
             Debug.Log("Move Left");
@@ -116,14 +138,13 @@ public class PlayerMovement : MonoBehaviour
             horizontal = moveDirection;
         }
 
-        // --- Gradually shift walkSpeed toward targetSpeed ---
+        // Smooth walkSpeed toward targetSpeed
         walkSpeed = Mathf.MoveTowards(walkSpeed, targetSpeed, accelerationRate * Time.fixedDeltaTime);
 
         if (!isSliding)
         {
             float targetVelocityX = horizontal * walkSpeed;
 
-            // Accelerate or decelerate based on input
             if (horizontal != 0)
             {
                 currentSpeedX = Mathf.MoveTowards(currentSpeedX, targetVelocityX, acceleration * Time.fixedDeltaTime);
@@ -132,12 +153,12 @@ public class PlayerMovement : MonoBehaviour
             {
                 currentSpeedX = Mathf.MoveTowards(currentSpeedX, 0, deceleration * Time.fixedDeltaTime);
             }
-            // Apply final velocity
+
             rb.linearVelocity = new Vector2(currentSpeedX, rb.linearVelocity.y);
         }
     }
 
-    // --- Visualize Ground Check in Scene View ---
+
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

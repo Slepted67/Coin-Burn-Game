@@ -5,7 +5,6 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ground
-  - Items
   - Coin
   - Gate
   - Wall
@@ -22,7 +21,7 @@ TagManager:
   - Water
   - UI
   - Collectables
-  - 
+  - Player
   - 
   - 
   - 
@@ -50,6 +49,21 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1246299191
+    locked: 0
+  - name: Hazards
+    uniqueID: 31523433
+    locked: 0
+  - name: Coins
+    uniqueID: 3571707235
+    locked: 0
+  - name: Player
+    uniqueID: 2739371829
+    locked: 0
+  - name: Ground
+    uniqueID: 1525688525
     locked: 0
   m_RenderingLayers:
   - Default

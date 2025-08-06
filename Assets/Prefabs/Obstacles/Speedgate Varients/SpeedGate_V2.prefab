@@ -650,13 +650,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpeedGate
       objectReference: {fileID: 0}
+    - target: {fileID: 4163222557069238068, guid: 91d13951f91cd8a4aaecca98079dd731, type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7372132256444761938, guid: 91d13951f91cd8a4aaecca98079dd731, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7372132256444761938, guid: 91d13951f91cd8a4aaecca98079dd731, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.5
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 7372132256444761938, guid: 91d13951f91cd8a4aaecca98079dd731, type: 3}
       propertyPath: m_LocalPosition.z

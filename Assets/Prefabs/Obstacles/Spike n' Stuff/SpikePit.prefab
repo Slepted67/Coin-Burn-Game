@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 4332983239013455920}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.39, y: 0.12, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -71,7 +71,7 @@ Transform:
   m_GameObject: {fileID: 4409932868529725061}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: -3.5, z: 3}
+  m_LocalPosition: {x: 16, y: -3.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -417,25 +417,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 5501199249349052166}
     m_Modifications:
-    - target: {fileID: 5260967524792107181, guid: 5748791b2a88dbb4ab3a1aa1585a0861, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5260967524792107181, guid: 5748791b2a88dbb4ab3a1aa1585a0861, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 5385892671658952503, guid: 5748791b2a88dbb4ab3a1aa1585a0861, type: 3}
       propertyPath: m_LocalPosition.x
       value: 21.5
       objectReference: {fileID: 0}
     - target: {fileID: 5385892671658952503, guid: 5748791b2a88dbb4ab3a1aa1585a0861, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7
+      value: 7.5
       objectReference: {fileID: 0}
     - target: {fileID: 5385892671658952503, guid: 5748791b2a88dbb4ab3a1aa1585a0861, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5385892671658952503, guid: 5748791b2a88dbb4ab3a1aa1585a0861, type: 3}
       propertyPath: m_LocalRotation.w
@@ -559,7 +551,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6351747185454654627, guid: f0c1820fce5309441b7e5c3e57bcb984, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6.61
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6351747185454654627, guid: f0c1820fce5309441b7e5c3e57bcb984, type: 3}
       propertyPath: m_LocalPosition.z
@@ -679,7 +671,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1856503999955470137, guid: 5453e649872ee6d4db8dd77d6564df0f, type: 3}
       propertyPath: bounceForce
-      value: 18
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 5671075120510966654, guid: 5453e649872ee6d4db8dd77d6564df0f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -733,7 +725,8 @@ PrefabInstance:
       propertyPath: m_Name
       value: SpringPad
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 6857592135165425734, guid: 5453e649872ee6d4db8dd77d6564df0f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

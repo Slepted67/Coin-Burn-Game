@@ -1055,7 +1055,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1856503999955470137, guid: 5453e649872ee6d4db8dd77d6564df0f, type: 3}
       propertyPath: bounceForce
-      value: 17
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 5671075120510966654, guid: 5453e649872ee6d4db8dd77d6564df0f, type: 3}
       propertyPath: m_LocalPosition.x

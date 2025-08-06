@@ -11,12 +11,16 @@ public class PlayerWallCollision : MonoBehaviour
     private bool isStunned = false;
     private PlayerMovement movement;
     private PlayerCoins coins;
+    private Animator animator;
+
 
     void Start()
     {
         movement = GetComponent<PlayerMovement>();
         coins = GetComponent<PlayerCoins>();
+        animator = GetComponentInChildren<Animator>(); // Get Animator from the player object
     }
+
 
     void OnCollisionEnter2D(Collision2D collision)
     {
@@ -41,6 +45,8 @@ public class PlayerWallCollision : MonoBehaviour
     {
         isStunned = true;
         movement.enabled = false;
+
+        animator.SetTrigger("Hurt"); // Trigger hurt animation
 
         int coinsToLose = Random.Range(coinLossMin, coinLossMax + 1);
         for (int i = 0; i < coinsToLose; i++)

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 844844418964357083}
   - component: {fileID: 7250315845046956058}
   - component: {fileID: 2701575281909790388}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BreakablePlatform
   m_TagString: Platform
   m_Icon: {fileID: 0}
@@ -76,8 +76,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 31523433
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
   m_Color: {r: 0.4188679, g: 1, b: 0.8578231, a: 1}

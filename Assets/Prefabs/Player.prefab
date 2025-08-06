@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7895516757048223887}
   - component: {fileID: 8241645655969717517}
+  - component: {fileID: 1555448960529234385}
   m_Layer: 0
   m_Name: Plyr_Body
   m_TagString: Player
@@ -26,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 3807821626500950980}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.1, y: -0.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -73,20 +74,42 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1555595467
+  m_SortingLayer: 4
   m_SortingOrder: 0
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
-  m_Color: {r: 0.09202363, g: 0.0054966398, b: 0.7283019, a: 1}
+  m_Sprite: {fileID: -7751219071525288297, guid: 7de2b4f9948fdcc45995bbb45e84bb7c, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 2, y: 2}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1555448960529234385
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3807821626500950980}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: cb9d509de31211e4e8dca40f8e80b566, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6404307386566982101
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,6 +123,8 @@ GameObject:
   - component: {fileID: 5637213593571984539}
   - component: {fileID: 1425710735153518107}
   - component: {fileID: 5318948575208776650}
+  - component: {fileID: 9155919324945823883}
+  - component: {fileID: 1628168395280211643}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -117,7 +142,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7895516757048223887}
@@ -138,7 +163,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 2
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -184,8 +209,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 2}
+  m_Offset: {x: 0, y: -0.25}
+  m_Size: {x: 1, y: 1.5}
   m_Direction: 0
 --- !u!114 &1425710735153518107
 MonoBehaviour:
@@ -199,13 +224,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07faae978ff45464cad5d9446803276e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 5
-  jumpForce: 10
+  walkSpeed: 7
+  jumpForce: 15
   slideDuration: 0.75
   groundLayer:
     serializedVersion: 2
     m_Bits: 8
   bodySprite: {fileID: 7895516757048223887}
+  accelerationRate: 5
+  acceleration: 20
+  deceleration: 25
+  targetSpeed: 0
 --- !u!114 &5318948575208776650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,6 +248,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   coinCount: 0
-  baseSpeed: 5
+  baseSpeed: 7.5
   speedPerCoin: 2
-  maxSpeed: 25
+  maxSpeed: 50
+--- !u!114 &9155919324945823883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404307386566982101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9dd5844b8c98b5545a387a3f88eb59d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stunDuration: 0.125
+  coinLossMin: 1
+  coinLossMax: 5
+--- !u!114 &1628168395280211643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6404307386566982101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cc4eeb1d189b7144a87720fa20fa067, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 1555448960529234385}
+  deathDelay: 1.5

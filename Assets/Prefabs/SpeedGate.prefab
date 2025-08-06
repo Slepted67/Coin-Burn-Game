@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 7022817290608633909}
   - component: {fileID: 8945493242497850020}
   - component: {fileID: 2513612441859854875}
+  - component: {fileID: 1988033800618726304}
   m_Layer: 0
   m_Name: GateSpeed
   m_TagString: Gate
@@ -344,6 +345,18 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 8945493242497850020}
   m_maskType: 0
+--- !u!210 &1988033800618726304
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6162081985788249360}
+  m_Enabled: 1
+  m_SortingLayerID: -1555595467
+  m_SortingLayer: 4
+  m_SortingOrder: 5
+  m_SortAtRoot: 0
 --- !u!1 &7369149311951697111
 GameObject:
   m_ObjectHideFlags: 0
@@ -398,7 +411,7 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
-  m_RenderingLayerMask: 1
+  m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
@@ -419,8 +432,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 31523433
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -5177388603050735206, guid: 8884154dfe85442a3a3578be807dbcdf, type: 3}
   m_Color: {r: 0.6784314, g: 0.5647059, b: 0.9490197, a: 1}
@@ -468,7 +481,7 @@ CapsuleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Size: {x: 1, y: 6}
+  m_Size: {x: 1, y: 1}
   m_Direction: 0
 --- !u!114 &7161352668774525761
 MonoBehaviour:
